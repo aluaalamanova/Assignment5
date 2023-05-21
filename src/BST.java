@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 public class BST <K extends Comparable<K>, V> {
     private Node root;
     private int size;
@@ -82,6 +84,31 @@ public class BST <K extends Comparable<K>, V> {
         }
         return findMin(node.left);
     }
+    public Iterable<Entry<K, V>> iterator() {
+        List<Entry<K, V>> keyValues = new ArrayList<>();
+        inOrderIterator(root,keyValues);
+        return keyValues;
+    }
+    private void inOrderIterator(Node node, List<Entry<K, V>> keyValues) {
+        if (node != null) {
+            inOrderIterator(node.left,keyValues);
+            keyValues.add(new Entry<>(node.key,node.value));
+            inOrderIterator(node.right,keyValues);
+        }
+    }
+    public class Entry<K, V> {
+        private K key;
+        private V value;
 
-
+        public Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+        public K key(){
+            return key;
+        }
+        public V value(){
+            return value;
+        }
+    }
 }
