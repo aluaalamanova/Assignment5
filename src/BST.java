@@ -11,7 +11,22 @@ public class BST <K extends Comparable<K>, V> {
             this.value=value;
         }
     }
-    public void put(K key, V value) {
+    private Node putNode(Node node, K key, V value) {
+        if (node == null) {
+            size++;
+            return new Node(key, value);
+        }
+
+        int m = key.compareTo(node.key);
+        if (m < 0) {
+            node.left = putNode(node.left, key, value);
+        } else if (m > 0) {
+            node.right = putNode(node.right, key, value);
+        } else {
+            node.value = value; // Update the value if the key already exists
+        }
+
+        return node;
     }
 
 }
