@@ -1,22 +1,44 @@
 import java.util.ArrayList;
 import java.util.List;
-public class BST <K extends Comparable<K>, V> {
+
+/**
+ * Binary Search Tree implementation with key-value pairs.
+ *
+ * @param <K> the key type
+ * @param <V> the value type
+ */
+public class BST<K extends Comparable<K>, V> {
     private Node root;
     private int size;
-    private class Node{
+
+    private class Node {
         private K key;
         private V value;
-
         private Node left, right;
-        public Node(K key, V value){
-            this.key=key;
-            this.value=value;
+
+        /**
+         * Constructs a new node with the given key and value.
+         *
+         * @param key   the key of the node
+         * @param value the value associated with the key
+         */
+        public Node(K key, V value) {
+            this.key = key;
+            this.value = value;
         }
     }
+
+    /**
+     * Inserts a key-value pair into the BST.
+     *
+     * @param key   the key to insert
+     * @param value the value associated with the key
+     */
     public void put(K key, V value) {
         root = putNode(root, key, value);
     }
 
+    // Recursive helper function to insert a key-value pair
     private Node putNode(Node node, K key, V value) {
         if (node == null) {
             size++;
@@ -34,6 +56,13 @@ public class BST <K extends Comparable<K>, V> {
 
         return node;
     }
+
+    /**
+     * Retrieves the value associated with the given key.
+     *
+     * @param key the key to search for
+     * @return the value associated with the key, or null if the key is not found
+     */
     public V get(K key) {
         Node current = root;
         while (current != null) {
@@ -48,13 +77,22 @@ public class BST <K extends Comparable<K>, V> {
         }
         return null; // Key not found
     }
+
+    /**
+     * Deletes a key-value pair from the BST.
+     *
+     * @param key the key to delete
+     */
     public void delete(K key) {
         root = deleteNode(root, key);
     }
+
+    // Recursive helper function to delete a key-value pair
     private Node deleteNode(Node node, K key) {
         if (node == null) {
             return null; // Key not found
         }
+
         int m = key.compareTo(node.key);
         if (m < 0) {
             node.left = deleteNode(node.left, key);
@@ -78,24 +116,40 @@ public class BST <K extends Comparable<K>, V> {
         return node;
     }
 
+    // Helper function to find the node with the minimum key in a subtree
     private Node findMin(Node node) {
         if (node.left == null) {
             return node;
         }
         return findMin(node.left);
     }
+
+    /**
+     * Returns an iterable object for in-order traversal of the BST.
+     *
+     * @return an iterable object for in-order traversal
+     */
     public Iterable<Entry<K, V>> iterator() {
         List<Entry<K, V>> keyValues = new ArrayList<>();
-        inOrderIterator(root,keyValues);
+        inOrderIterator(root, keyValues);
         return keyValues;
     }
+
+    // Recursive helper function for in-order traversal
     private void inOrderIterator(Node node, List<Entry<K, V>> keyValues) {
         if (node != null) {
-            inOrderIterator(node.left,keyValues);
-            keyValues.add(new Entry<>(node.key,node.value));
-            inOrderIterator(node.right,keyValues);
+            inOrderIterator(node.left, keyValues);
+            keyValues.add(new Entry<>(node.key, node.value));
+            inOrderIterator(node.right, keyValues);
         }
     }
+
+    /**
+     * Represents a key-value entry in the BST.
+     *
+     * @param <K> the key type
+     * @param <V> the value type
+     */
     public class Entry<K, V> {
         private K key;
         private V value;
@@ -104,10 +158,12 @@ public class BST <K extends Comparable<K>, V> {
             this.key = key;
             this.value = value;
         }
-        public K key(){
+
+        public K key() {
             return key;
         }
-        public V value(){
+
+        public V value() {
             return value;
         }
     }
