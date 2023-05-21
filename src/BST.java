@@ -11,6 +11,10 @@ public class BST <K extends Comparable<K>, V> {
             this.value=value;
         }
     }
+    public void put(K key, V value) {
+        root = putNode(root, key, value);
+    }
+
     private Node putNode(Node node, K key, V value) {
         if (node == null) {
             size++;
