@@ -134,6 +134,23 @@ public class BST<K extends Comparable<K>, V> {
         inOrderIterator(root, keyValues);
         return keyValues;
     }
+    public boolean consist(K key, V value) {
+        boolean contains = consist(root, key, value);
+        return contains;
+    }
+    private boolean consist(Node current, K key, V value) {
+        if (current == null) {
+            return false;
+        } else if (key.equals(current.key)) {
+            return true;
+        }
+        int m = key.compareTo(current.key);
+        if (m < 0) {
+            return consist(current.left, key, value);
+        } else {
+            return consist(current.right, key, value);
+        }
+    }
 
     // Recursive helper function for in-order traversal
     private void inOrderIterator(Node node, List<Entry<K, V>> keyValues) {
